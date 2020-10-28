@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Reviews</h1>
+
+    <table class="table">
+        <tr>
+            <th>User</th>
+            <th>Review text</th>
+            <th>Date</th>
+            <th>Rating</th>
+        </tr>
+        {% for review in reviews %}
+            <tr class="table-row" style="cursor:pointer;" data-href="{{ path('review_show', {'id': review.id}) }}">
+                <td>{{review.username}}</td>
+                <td>{{review.description}}</td>
+                <td>{{review.createdAt|date('Y-m-d')}}</td>
+                <td>{{review.price}}</td>
+                <td><button class="btn btn-warning"><a href="{{ path('review_show', {'id': review.id}) }}">Editar</a></button></td>
+                <td><button class="btn btn-danger"><a href="{{ path('review_delete', {'id': review.id}) }}">Borrar</a></button></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/form" class="btn btn-primary">New review</a>
+{% endblock %}

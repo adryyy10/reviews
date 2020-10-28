@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% if review is defined %}
+    <h1>Edit review</h1>
+    {% else %}
+    <h1>New review</h1>
+    {% endif %}
+    
+
+    <form method="POST" action="/save_review">
+        <div class="form-group">
+            <input class="form-control" type="text" name="user" {% if review is defined %} value="{{review.username}}" {% endif %} placeholder="User name">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" placeholder="Review text" name="text" id="" cols="30" rows="10">{% if review is defined %} {{review.description}} {% endif %}</textarea>
+        </div>
+
+        {% if review is defined %}
+            {% set price = review.price %}
+            {% set quality = review.quality %}
+            {% set delivery = review.delivery %}
+            {% set worthy = review.worthy %}
+            <input type="hidden" id="review-id" name="review-id" value="{{review.id}}">
+        {% endif %}
+        <fieldset>
+            <legend>How would you rate those aspects of the product?</legend>
+            <div class="form-group">
+                <fieldset>
+                    <div>Price</div>
+                    {% for i in 1..5 %}
+                        <label for="rating_0-{{ i }}" class="radio-inline">
+                            <input type="radio" name="rating_0" id="rating_0-{{ i }}" {% if review is defined and price == i  %} checked {% endif %} value="{{ i }}"> {{ i }}
+                        </label>
+                    {% endfor %}
+                    <div>Quality</div>
+                    {% for i in 1..5 %}
+                        <label for="rating_1-{{ i }}" class="radio-inline">
+                            <input type="radio" name="rating_1" id="rating_1-{{ i }}" {% if review is defined and quality == i  %} checked {% endif %} value="{{ i }}"> {{ i }}
+                        </label>
+                    {% endfor %}
+                    <div>Delivery Time</div>
+                    {% for i in 1..5 %}
+                        <label for="rating_2-{{ i }}" class="radio-inline">
+                            <input type="radio" name="rating_2" id="rating_2-{{ i }}" {% if review is defined and delivery == i  %} checked {% endif %} value="{{ i }}"> {{ i }}
+                        </label>
+                    {% endfor %}
+                    <div>Worthy</div>
+                    {% for i in 1..5 %}
+                        <label for="rating_3-{{ i }}" class="radio-inline">
+                            <input type="radio" name="rating_3" id="rating_3-{{ i }}" {% if review is defined and worthy == i  %} checked {% endif %} value="{{ i }}"> {{ i }}
+                        </label>
+                    {% endfor %}
+                </fieldset>
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-default">Send</button>
+    </form>
+{% endblock %}
